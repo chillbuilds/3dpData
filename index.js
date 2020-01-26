@@ -13,15 +13,17 @@ var opts = {
 
 function fileNaming() {
     let date = new Date;
-    let formatDate = `${(date.getMonth() + 1).toString()}-${date.getDate().toString()}`
-    console.log(formatDate);
+    let formatDate = `[${(date.getMonth() + 1).toString()}-${date.getDate().toString()}-${date.getFullYear().toString()}]_[${date.getHours().toString()}-${date.getMinutes().toString()}-${date.getSeconds().toString()}]`
+    return formatDate;
 }
 
 //capture camera data as base64 string
 function snap() {
-NodeWebcam.capture( "test_picture", opts, function( err, data ) {
+    let imgName = fileNaming();
+
+NodeWebcam.capture( imgName, opts, function( err, data ) {
     var image = `<img src='${data}'>`;
-    var htmlVar = `<!DOCTYPE html>
+    var html = `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -32,9 +34,9 @@ NodeWebcam.capture( "test_picture", opts, function( err, data ) {
         ${image}
     </body>
     </html>`
-    fs.writeFileSync("../../htmlrender.html", html);
+    fs.writeFileSync("./htmlrender.html", html);
 });
 }
 
-fileNaming();
-// snap();
+// fileNaming();
+snap();
