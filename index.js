@@ -34,8 +34,8 @@ function snap() {
     let imgName = "img";
     
     var opts = {
-        width: 1280,
-        height: 960,
+        width: 800,
+        height: 800,
         quality: 2,
         output: "png",
         callbackReturn: "base64",
@@ -44,9 +44,11 @@ function snap() {
 
 NodeWebcam.capture( imgName, opts, function( err, data ) {
     dbStore(data, imgName);
-    let test = `use images.db
-    show`
-    fs.writeFileSync("./test.js", )
+    
+    
+
+    let test = `use imagesdb \ndb.images.insert({"name": "test", "img": "${data}"})`
+    fs.writeFileSync("./script.js", test)
 });
 }
 
