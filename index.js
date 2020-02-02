@@ -5,7 +5,6 @@ function dbStore(data, imgName) {
     // let test = `use imagesdb \ndb.images.insert({"name": "test", "img": "${data}"})`
     let obj = {name: imgName, data: data};
     fs.writeFileSync("./img.json", JSON.stringify(obj))
-
 };
 
 //capture camera data as base64 string
@@ -22,6 +21,8 @@ function snap() {
     };
 
 NodeWebcam.capture( imgName, opts, function( err, data ) {
+    let errData = `\n${err}\n`
+    if(err){fs.appendFileSync("./error-logs..txt", errData)}
     dbStore(data, imgName);
 });
 }
