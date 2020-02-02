@@ -1,0 +1,2 @@
+use imagesdb
+show collections
