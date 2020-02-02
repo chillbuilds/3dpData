@@ -1,42 +1,21 @@
 const fs = require('fs');
 const NodeWebcam = require( "node-webcam" );
-const mongojs = require('mongojs');
-
-const databaseURL = "imagesdb";
-const collections = ["images"];
-const db = mongojs(databaseURL, collections);
-
-db.on("error", error => {
-    console.log(`${error}\n\nDatabase Error, ya dip shit\n`);
-})
 
 function dbStore(data, imgName) {
+    // let test = `use imagesdb \ndb.images.insert({"name": "test", "img": "${data}"})`
     let obj = {name: imgName, data: data};
-    let x = obj.toString();
-    fs.writeFileSync('./obj.csv', x)
-    // let obj = {name: 'test', option:1}
-    // db.images.insert(obj, (err, saved) => {
-    //     if(err){console.log(err)}else{
-    //         console.log(saved)
-    //     }
-    // });
-};
+    fs.writeFileSync("./img.json", JSON.stringify(obj))
 
-function fileNaming() {
-    let date = new Date;
-    let formatDate = `[${(date.getMonth() + 1).toString()}-${date.getDate().toString()}-${date.getFullYear().toString()}]_[h-${date.getHours().toString()}m-${date.getMinutes().toString()}s-${date.getSeconds().toString()}]`
-    return formatDate;
-}
+};
 
 //capture camera data as base64 string
 function snap() {
-    // let imgName = fileNaming();
     let imgName = "img";
     
     var opts = {
-        width: 800,
+        width: 1200,
         height: 800,
-        quality: 2,
+        quality: 3,
         output: "png",
         callbackReturn: "base64",
         verbose: true
@@ -44,13 +23,7 @@ function snap() {
 
 NodeWebcam.capture( imgName, opts, function( err, data ) {
     dbStore(data, imgName);
-    
-    
-
-    let test = `use imagesdb \ndb.images.insert({"name": "test", "img": "${data}"})`
-    fs.writeFileSync("./script.js", test)
 });
 }
 
-// fileNaming();
 snap();
