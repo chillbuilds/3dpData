@@ -1,2 +1,0 @@
-use imagesdb
-db.images.remove({});
